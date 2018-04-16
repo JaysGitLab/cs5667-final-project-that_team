@@ -1,5 +1,5 @@
 {
-  "name": "Beestream",
+  "name": "park-reserve",
   "version": "0.0.1",
   "scripts": {
     "app": "node server",
