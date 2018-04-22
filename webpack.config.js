@@ -11,7 +11,7 @@ module.exports = {
     extensions: ['.ts', '.js', '.json', '.html']
   },
 	output: {
-		path: '/home/gurnben/Projects/cs5667-final-project-that_team/public/build',
+		path: '/mnt/c/Users/gurne/OneDrive/Documents/College Spring 2018/Advanced Software Engineering/Web-Registration/cs5667-final-project-that_team/public/build',
 		filename: '[name].js',
 	},
 	module: {
