@@ -5,21 +5,21 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 /* Primary app component imports */
-import { RegistrationComponent } from './registration.component';
-import { RegistrationRoutes } from './registration.routes';
-import { RegistrationService } from './registration.service';
+import { ReservationComponent } from './reservation.component';
+import { ReservationRoutes } from './reservation.routes';
+import { ReservationService } from './reservation.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild(RegistrationRoutes)
+    RouterModule.forChild(ReservationRoutes)
   ],
   declarations: [
-    RegistrationComponent,
+    ReservationComponent,
   ],
   providers: [
-    RegistrationService
+    ReservationService
   ]
 })
-export class RegistrationModule { }
+export class ReservationModule { }

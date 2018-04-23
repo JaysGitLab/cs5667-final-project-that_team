@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { RegistrationService } from './registration.service';
+import { ReservationService } from './reservation.service';
 
-/* This component handles user registration requests via an angular form.
+/* This component handles user reservation requests via an angular form.
 *
-* This file uses the registration service to handle all socket communications.
+* This file uses the reservation service to handle all socket communications.
 */
 @Component({
-  selector: 'registration',
-  templateUrl: './app/registration/registration.template.html',
-  providers: [RegistrationService]
+  selector: 'reservation',
+  templateUrl: './app/reservation/reservation.template.html',
+  providers: [ReservationService]
 })
-export class RegistrationComponent {
-  /* Constructor for RegistrationComponent
+export class ReservationComponent {
+  /* Constructor for ReservationComponent
   *
-  * initializes a RegistrationService instance in the _registrationservice
+  * initializes a ReservationService instance in the _reservationservice
   * attribute.
   */
-  constructor(private _registrationservice: RegistrationService) {}
+  constructor(private _reservationservice: ReservationService) {}
 
   /* This overrides the ngOnInit function to add functionality.
   *
@@ -25,7 +25,7 @@ export class RegistrationComponent {
   */
   ngOnInit() {
     //TODO: Initialize fields
-    //TODO: Initialize socket hooks with this._registrationservice.on()
+    //TODO: Initialize socket hooks with this._reservationservice.on()
     //TODO: emit a signal to get all unavaliable days from server.
   }
 }
