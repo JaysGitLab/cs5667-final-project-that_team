@@ -4,7 +4,6 @@ const path = require('path');
 module.exports = {
 	entry: {
     polyfills: './public/polyfills.ts',
-    vendor: './public/vendor.ts',
     bootstrap: './public/bootstrap.ts'
 	},
   resolve: {

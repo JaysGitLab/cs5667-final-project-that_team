@@ -2,7 +2,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule, MatInputModule, MatFormFieldModule, MatNativeDateModule } from '@angular/material'
 
 /* Primary app component imports */
 import { ReservationComponent } from './reservation.component';
@@ -13,6 +14,11 @@ import { ReservationService } from './reservation.service';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatFormFieldModule,
     RouterModule.forChild(ReservationRoutes)
   ],
   declarations: [

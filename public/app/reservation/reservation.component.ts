@@ -1,6 +1,15 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl, Validators, FormGroupDirective } from '@angular/forms';
 import { ReservationService } from './reservation.service';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+/* Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 /* This component handles user reservation requests via an angular form.
 *
@@ -12,6 +21,12 @@ import { ReservationService } from './reservation.service';
   providers: [ReservationService]
 })
 export class ReservationComponent {
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email
+  ]);
+
+  matcher = new MyErrorStateMatcher();
   /* Constructor for ReservationComponent
   *
   * initializes a ReservationService instance in the _reservationservice
