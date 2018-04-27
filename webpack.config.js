@@ -10,8 +10,9 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js', '.json', '.html']
   },
+	context: __dirname,
 	output: {
-		path: '/home/gurnben/Projects/cs5667-final-project-that_team/public/build',
+		path: __dirname + '/public/build',
 		filename: '[name].js',
 	},
 	module: {
