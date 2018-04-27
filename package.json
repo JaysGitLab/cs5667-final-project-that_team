@@ -5,7 +5,8 @@
     "app": "node server",
     "start": "concurrently \"npm run watch:build\" \"npm run watch:server\"",
     "watch:build": "webpack --watch",
-    "watch:server": "nodemon \"./server.js\" --watch \"./public/build\""
+    "watch:server": "nodemon \"./server.js\" --watch \"./public/build\"",
+    "build": "webpack"
   },
   "dependencies": {
     "@angular/common": "5.2.4",
