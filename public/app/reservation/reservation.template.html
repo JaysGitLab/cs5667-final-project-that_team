@@ -1,12 +1,12 @@
 <div>
-  <form>
+  <form #ReservationForm=ngForm (ngSubmit)="onSubmit(ReservationForm)">
     <mat-form-field name="firstname">
       <input matInput placeholder="First Name">
     </mat-form-field>
     <mat-form-field name="lastname">
       <input matInput placeholder="Last Name">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field name="email">
       <input matInput placeholder="Email" [formControl]="emailFormControl"
              [errorStateMatcher]="matcher">
       <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
@@ -16,10 +16,11 @@
         Email is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field name="date">
       <input matInput [matDatepicker]="picker" placeholder="Choose a Date">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <button>Register</button>
   </form>
 </div>

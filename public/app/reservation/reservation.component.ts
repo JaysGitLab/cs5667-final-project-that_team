@@ -39,8 +39,22 @@ export class ReservationComponent {
   * This initializes the fields and sets up the necessary socket hook.
   */
   ngOnInit() {
+    this._reservationservice.on('message', (message) => {
+      console.log(message);
+    });
+    this._reservationservice.emit('test', {});
     //TODO: Initialize fields
     //TODO: Initialize socket hooks with this._reservationservice.on()
     //TODO: emit a signal to get all unavaliable days from server.
+  }
+
+  /*This method handles form submissions.
+  *
+  * @params: form - the ngform object
+  */
+  onSubmit(form: NgForm) {
+    if (form.valid) {
+      this._reservationservice.emit('reservationCreated', {form: form.value});
+    }
   }
 }
