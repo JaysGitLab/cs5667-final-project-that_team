@@ -25,7 +25,6 @@ export class ReservationComponent {
     Validators.required,
     Validators.email
   ]);
-
   matcher = new MyErrorStateMatcher();
   /* Constructor for ReservationComponent
   *
@@ -54,7 +53,8 @@ export class ReservationComponent {
   */
   onSubmit(form: NgForm) {
     if (form.valid) {
-      this._reservationservice.emit('reservationCreated', {form: form.value});
+      console.log(JSON.stringify(form.value));
+      this._reservationservice.emit('reservationCreated', {form: JSON.stringify(form.value)});
     }
   }
 }
