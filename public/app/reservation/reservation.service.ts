@@ -28,6 +28,7 @@ export class ReservationService {
   emit(eventName, data) {
     if (this.socket) {
       this.socket.emit(eventName, data);
+      console.log(`Emitting ${eventName} with data ${data}.`);
     }
   };
   /* This method will respond to socket.removeListener calls. */

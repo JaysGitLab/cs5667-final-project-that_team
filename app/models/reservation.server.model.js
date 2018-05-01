@@ -29,7 +29,7 @@ const ReservationSchema = new Schema({
   status: {
     type: String,
     required: 'A reservation must have a state: open, invoiced, or paid!',
-    trim: true
+    trim: true,
     default: 'open'
   }
 });

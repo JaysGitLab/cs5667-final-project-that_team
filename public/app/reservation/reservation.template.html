@@ -1,14 +1,13 @@
 <div>
-  <form>
-    <mat-form-field name="firstname">
-      <input matInput placeholder="First Name">
-    </mat-form-field>
-    <mat-form-field name="lastname">
-      <input matInput placeholder="Last Name">
+  <form #ReservationForm="ngForm" (ngSubmit)="onSubmit(ReservationForm)">
+    <mat-form-field>
+      <input matInput placeholder="First Name" name="firstname" ngModel>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Email" [formControl]="emailFormControl"
-             [errorStateMatcher]="matcher">
+      <input matInput placeholder="Last Name" name="lastname" ngModel>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Email" email name="email" ngModel>
       <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
         Please enter a valid email address
       </mat-error>
@@ -17,9 +16,10 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Choose a Date">
+      <input matInput [matDatepicker]="picker" placeholder="Choose a Date" name="date" ngModel>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <button>Register</button>
   </form>
 </div>
