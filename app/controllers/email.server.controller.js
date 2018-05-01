@@ -13,9 +13,8 @@ const generate_user_secret_key = (email_address) {
         *  I believe this method will create the secret key based off the user's email address and then store it in
         *   the database using the UserSchema's jwt-secret-key field.
         */
-        jwt.sign({ id: email_address.id }, User.jwt-secret-key)
+        jwt.sign({ id: email_address.id }, User.jwt-secret-key);
     }
 
 }
-
 module.exports = { generate_user_secret_key };
