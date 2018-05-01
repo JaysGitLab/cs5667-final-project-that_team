@@ -9,7 +9,7 @@ const UserSchema = new Schema({
   },
   jwt-secret-key: {
     //TODO: This should not be stored in plaintext, use salt to encrypt the SHA256 secret key.
-    type: Integer,
+    type: Number,
     required: 'User\'s secret key is required for authentication!',
   }
 });
