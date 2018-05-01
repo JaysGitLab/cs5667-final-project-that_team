@@ -14,4 +14,12 @@ const UserSchema = new Schema({
   }
 });
 
+/*
+* assign static function to the "statics" object of the UserSchema (see: http://mongoosejs.com/docs/guide.html#statics)
+* This function returns true if the provided email_address is already in the database.
+*/
+UserSchema.statics.userExists = function(email_address) {
+    return this.find({email: new RegExp(email_address, 'i')})
+}
+
 mongoose.model('User', UserSchema);
