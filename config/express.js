@@ -21,11 +21,11 @@ module.exports = function(db) {
   /*Handle different NODE_ENV configurations. */
   if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev')); //Log all requests in dev.
-    /* add other developement middlewear here */
+    /* add other development middlewear here */
   }
   else if (process.env.NODE_ENV === 'production') {
     app.use(compress()); //Compress in production.
-    /* add other produciton middlewear here */
+    /* add other production middlewear here */
   }
 
   /*Add bodyParser middlewear to handle POST, GET, JSON, etc.*/
