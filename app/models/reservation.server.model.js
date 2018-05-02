@@ -21,6 +21,11 @@ const ReservationSchema = new Schema({
     type: Date,
     required: 'A date for the reservation is required!',
   },
+  secret: {
+    type: String,
+    required: 'Secret key is required.',
+    trim: true
+  },
   created: {
     type: Date,
     required: true,

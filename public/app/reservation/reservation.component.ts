@@ -21,6 +21,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   providers: [ReservationService]
 })
 export class ReservationComponent {
+  dateFilter: any;
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email
@@ -41,7 +42,12 @@ export class ReservationComponent {
     this._reservationservice.on('message', (message) => {
       console.log(message);
     });
-    this._reservationservice.emit('test', {});
+    this._reservationservice.on('dateListResponse', (message) => {
+      this.dateFilter = (d: Date): boolean => {
+        return !message.dateList.includes(d.toISOString());
+      }
+    });
+    this._reservationservice.emit('dateList', {});
     //TODO: Initialize fields
     //TODO: Initialize socket hooks with this._reservationservice.on()
     //TODO: emit a signal to get all unavaliable days from server.
