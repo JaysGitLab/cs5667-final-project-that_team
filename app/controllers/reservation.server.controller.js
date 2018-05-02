@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const hash = require('object-hash');
+const nodemailer = require('nodemailer');
 const Reservation = mongoose.model('Reservation');
 /*This file handles all socket.io configuration for the reservation service.
 * This includes creating the listeners and sending the appropriate emit
@@ -35,7 +36,28 @@ module.exports = function(io, socket) {
       }
       //If there isn't an error, return reservationSuccessful
       else {
-        //TODO: send email
+        var transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: '<from-email>',
+            //If you use your gmail, you will need to generate an app password
+            pass: '<from-password'
+          }
+        });
+        var mailOptions = {
+          from: '<from-email>',
+          to: form.email,
+          subject: `Successful registration for ${form.date}`,
+          text: `Successful registration for ${form.date}.`
+        };
+        transporter.sendMail(mailOptions, function(err, info) {
+          if (err) {
+            console.log(`Error in sending email with error ${err}.`);
+          }
+          else {
+            console.log(`Email sent: ${info.response}.`);
+          }
+        });
         console.log(`Reservation Successful`);
         socket.emit('reservationSuccessful', {message: 'Reservation Successful'});
       }
