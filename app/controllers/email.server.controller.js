@@ -15,6 +15,21 @@ const generate_user_secret_key = (email_address) {
         */
         jwt.sign({ id: email_address.id }, User.jwt-secret-key);
     }
+    send_magic_link_email(email_address)
 
 }
 module.exports = { generate_user_secret_key };
+
+const send_magic_link_email = (email_address) {
+    MailService.create({
+        to: email_address,
+        subject: 'Magic Link for Park Reservation Authentication',
+        html: `
+            <h1>Magic link</h1>
+            <a href="${config.host}/api/accounts/me?token=${encodeURIComponent(token)}">
+            YOUHOU
+            </a>
+        `,
+        text: `Magic link: ${config.host}/api/accounts/me?token=${encodeURIComponent(token)}`,
+    });
+}
