@@ -9,8 +9,12 @@ module.exports = function(io, socket) {
   //These are all of the listeners for messages from clients.
   socket.on('reservationCreated', (message) => {
     var form = JSON.parse(message.form);
-    console.log(form);
-    var newReservation = new Reservation(form);
+    var newReservation = new Reservation({
+      firstname: form.firstname,
+      lastname: form.lastname,
+      email: form.email,
+      reservationDate: new Date(form.date)
+    });
     newReservation.save((err) => {
       if (err) {
         console.log(`Insertion Error ${err}`);
@@ -18,7 +22,7 @@ module.exports = function(io, socket) {
       }
       else {
         console.log(`Reservation Successful`);
-        socket.on('reservationSuccessful', {message: 'Reservation Successful'});
+        socket.emit('reservationSuccessful', {message: 'Reservation Successful'});
       }
     });
     //TODO: extract the data from the form and insert into db.

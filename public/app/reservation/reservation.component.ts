@@ -52,9 +52,10 @@ export class ReservationComponent {
   * @params: form - the ngform object
   */
   onSubmit(form: NgForm) {
-    if (form.valid) {
-      console.log(JSON.stringify(form.value));
-      this._reservationservice.emit('reservationCreated', {form: JSON.stringify(form.value)});
+    if (form.valid && this.emailFormControl.valid) {
+      var submission = JSON.parse(JSON.stringify(form.value));
+      submission.email = this.emailFormControl.value;
+      this._reservationservice.emit('reservationCreated', {form: JSON.stringify(submission)});
     }
   }
 }

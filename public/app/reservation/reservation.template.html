@@ -6,8 +6,8 @@
     <mat-form-field>
       <input matInput placeholder="Last Name" name="lastname" ngModel>
     </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Email" email name="email" ngModel>
+    <mat-form-field name="email">
+      <input matInput placeholder="Email" [formControl]="emailFormControl" [errorStateMatcher]="matcher" name="email" ngModel>
       <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
         Please enter a valid email address
       </mat-error>
