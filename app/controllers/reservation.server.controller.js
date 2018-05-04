@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const hash = require('object-hash');
 const nodemailer = require('nodemailer');
+const config = require("../../config/config.js");
 const Reservation = mongoose.model('Reservation');
 /*This file handles all socket.io configuration for the reservation service.
 * This includes creating the listeners and sending the appropriate emit
@@ -39,16 +40,18 @@ module.exports = function(io, socket) {
         var transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
-            user: '<from-email>',
+            user: config.emailAddr,
             //If you use your gmail, you will need to generate an app password
-            pass: '<from-password'
+            pass: config.emailPass
           }
         });
         var mailOptions = {
           from: '<from-email>',
           to: form.email,
           subject: `Successful registration for ${form.date}`,
-          text: `Successful registration for ${form.date}.`
+          text: `Successful registration for ${form.date}.\n` +
+                `If you need to make changes to your reservation or cancel it, click the link below!\n` +
+                `${config.url}/manage/${hashedForm}`
         };
         transporter.sendMail(mailOptions, function(err, info) {
           if (err) {
