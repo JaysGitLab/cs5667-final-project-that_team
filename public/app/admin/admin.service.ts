@@ -10,7 +10,7 @@ const io = require('socket.io-client');
 * Note: it is Injectable so it can be injected as a service in RXJS
 */
 @Injectable()
-export class ReservationService {
+export class AdminService {
     private socket: any;
 
     constructor() {
