@@ -9,6 +9,7 @@ import { HttpModule } from '@angular/http';
 import { HomeModule } from './home/home.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { ManageModule } from './manage/manage.module';
+import { AdminModule } from './admin/admin.module';
 //TODO: Import other modules here.
 
 /* Component Imports from our project */
@@ -30,6 +31,7 @@ require("./style.css");
     HomeModule,
     ReservationModule,
     ManageModule,
+    AdminModule,
     RouterModule.forRoot(AppRoutes)
   ],
   declarations: [
