@@ -13,6 +13,16 @@ export class UsernameMatcher implements ErrorStateMatcher {
   }
 }
 
+/* Error when invalid control is dirty, touched, or submitted.
+ * (see: https://material.angular.io/components/input/examples)
+*/
+export class PasswordMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
 /*
 * This component handles admin local authentication requests via angular form and passport.
 */
@@ -26,8 +36,11 @@ export class AdminComponent {
     usernameFormControl = new FormControl('', [
         Validators.required
     ]);
+    passwordFormControl = new FormControl('', [
+        Validators.required
+    ]);
     usernameMatcher = new UsernameMatcher();
-
+    passwordMatcher = new PasswordMatcher();
     /*
     * Constructor for AdminComponent
     *
