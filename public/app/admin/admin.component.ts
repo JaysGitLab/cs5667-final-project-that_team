@@ -24,8 +24,7 @@ export class UsernameMatcher implements ErrorStateMatcher {
 export class AdminComponent {
     dateFilter: any;
     usernameFormControl = new FormControl('', [
-        Validators.required,
-        // TODO: If we want Validator for username it would require a custom validator.
+        Validators.required
     ]);
     usernameMatcher = new UsernameMatcher();
 
