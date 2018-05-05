@@ -1,3 +1,4 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 /*You'll find any CSS Styling here*/
 .footer{
   position:absolute;
