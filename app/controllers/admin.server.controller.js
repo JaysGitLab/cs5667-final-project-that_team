@@ -13,9 +13,13 @@ module.exports = function(io, socket) {
 
     // This hook handles admin login requests:
     socket.on('adminLoginRequest', (message) => {
-        // console.log('Server received admin login request:', message)
+        var usernameExists = false;
+        // Parse the received form:
+        var form = JSON.parse(message.form)
+        console.log('Server received admin login request:', form)
+        // console.log('username: ', form.username);
         // Check the database to see if the username is present:
-        Admin.findOne({'username': message.username}).select({
+        Admin.findOne({'username': form.username}).select({
             firstName: 1,
             lastName: 1,
             email: 1,
@@ -29,7 +33,12 @@ module.exports = function(io, socket) {
             if (err) {
                 socket.emit('accessFailed', {message: 'Could not access admin user data.'});
             } else {
-                socket.emit('adminUserData', admin);
+                if (admin != null) {
+                    usernameExists = true;
+                    socket.emit('adminUserData', admin);
+                } else {
+                    socket.emit('userNotFound', {message: 'The provided username: ' + form.username + ' is not in the database.'})
+                }
             }
         });
     });
