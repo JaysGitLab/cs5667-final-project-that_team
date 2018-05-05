@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm, FormControl, Validators, FormGroupDirective } from '@angular/forms';
 import { ReservationService } from './reservation.service';
+import { Router } from '@angular/router'
 import { ErrorStateMatcher } from '@angular/material/core';
 
 /* Error when invalid control is dirty, touched, or submitted. */
@@ -32,7 +33,7 @@ export class ReservationComponent {
   * initializes a ReservationService instance in the _reservationservice
   * attribute.
   */
-  constructor(private _reservationservice: ReservationService) {}
+  constructor(private _reservationservice: ReservationService, private router:Router) {}
 
   /* This overrides the ngOnInit function to add functionality.
   *
@@ -47,6 +48,9 @@ export class ReservationComponent {
         return !message.dateList.includes(d.toISOString());
       }
     });
+    this._reservationservice.on('reservationSuccessful', (message) => {
+      this.router.navigateByUrl(`/manage/${message.secret}`);
+    })
     this._reservationservice.emit('dateList', {});
     //TODO: Initialize fields
     //TODO: Initialize socket hooks with this._reservationservice.on()
