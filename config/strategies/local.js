@@ -13,7 +13,7 @@ module.exports = function() {
 
             if (!user) {
                 return done(null, false, {
-                    message: 'Unknown user'
+                    message: 'Unknown admin user'
                 });
             }
 
