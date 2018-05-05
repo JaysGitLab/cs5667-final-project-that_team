@@ -13,6 +13,13 @@
         </mat-form-field>
         <mat-form-field name="password">
             <input matInput placeholder="password" [formControl]="passwordFormControl" [errorStateMatcher]="passwordMatcher" name="password" ngModel>
+            <mat-hint>Enter admin password above.</mat-hint>
+             <mat-error *ngIf="passwordFormControl.hasError('password') && !passwordFormControl.hasError('required')">
+                The provided password is not recognized.
+            </mat-error>
+            <mat-error *ngIf="passwordFormControl.hasError('required')">
+                An admin password is <strong>required</strong>.
+            </mat-error>
         </mat-form-field>
     </form>
 </div>
