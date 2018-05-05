@@ -9,8 +9,9 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js', '.json', '.html']
   },
+	context: __dirname,
 	output: {
-		path: '/mnt/c/Users/gurne/OneDrive/Documents/College Spring 2018/Advanced Software Engineering/Web-Registration/cs5667-final-project-that_team/public/build',
+		path: __dirname + '/public/build',
 		filename: '[name].js',
 	},
 	module: {
