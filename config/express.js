@@ -11,6 +11,7 @@ const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const path = require('path');
 const configureSocket = require('./socketio.js');
+const passport = require('passport');
 
 module.exports = function(db) {
   /* Create our express application, wrap it with http, and start socketio. */
@@ -43,6 +44,10 @@ module.exports = function(db) {
 
   /* Configure flash for sending messages between pages. */
   app.use(flash());
+
+  /* Use passport for admin login */
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   /* Set up important routes. */
   app.use('/', express.static(path.resolve('./public')));
