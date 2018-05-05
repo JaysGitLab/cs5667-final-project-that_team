@@ -27,7 +27,7 @@ export class AdminComponent {
         Validators.required
         // TODO: If we want Validator for username it would require a custom validator.
     ]);
-    matcher = MyErrorStateMatcher();
+    matcher = new MyErrorStateMatcher();
 
     /*
     * Constructor for AdminComponent
