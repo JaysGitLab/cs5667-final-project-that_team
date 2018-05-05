@@ -1,6 +1,16 @@
 <div>
+    <!-- see: https://material.angular.io/components/input/examples !-->
     <form #AdminSignInForm="ngForm" (ngSubmit)="onSubmit(AdminSignInForm)">
-        <mat-form-field username="username"></mat-form-field>
+        <mat-form-field username="username">
+            <input matInput placeholder="username" [formControl]="usernameFormControl" [errorStateMatcher]="usernameMatcher">
+            <mat-hint>Enter your administrator username above.</mat-hint>
+            <mat-error *ngIf="usernameFormControl.hasError('uname') && !usernameFormControl.hasError('required')">
+                The provided username is not recognized.
+            </mat-error>
+            <mat-error *ngIf="usernameFormControl.hasError('required')">
+                An administrator username is <strong>required</strong> to login.
+            </mat-error>
+        </mat-form-field>
         <mat-form-field password="password"></mat-form-field>
     </form>
 </div>
