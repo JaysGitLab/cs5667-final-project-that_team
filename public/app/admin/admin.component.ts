@@ -65,7 +65,9 @@ export class AdminComponent {
     onSubmit(form: NgForm) {
         if (form.valid && this.usernameFormControl.valid) {
             var submission = JSON.parse(JSON.stringify(form.value));
-            submission.uname = this.usernameFormControl.value;
+            submission.username = this.usernameFormControl.value;
+            submission.password = this.passwordFormControl.value;
+//            console.log(submission);
             this._adminservice.emit('adminLoginRequested', {form: JSON.stringify(submission)});
         }
     }
