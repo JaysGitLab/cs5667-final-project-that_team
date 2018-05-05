@@ -6,7 +6,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 /* Error when invalid control is dirty, touched, or submitted.
  * (see: https://material.angular.io/components/input/examples)
 */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
+export class UsernameMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
@@ -24,10 +24,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class AdminComponent {
     dateFilter: any;
     usernameFormControl = new FormControl('', [
-        Validators.required
+        Validators.required,
         // TODO: If we want Validator for username it would require a custom validator.
     ]);
-    matcher = new MyErrorStateMatcher();
+    usernameMatcher = new UsernameMatcher();
 
     /*
     * Constructor for AdminComponent
