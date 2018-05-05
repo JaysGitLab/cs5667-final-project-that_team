@@ -57,6 +57,15 @@ export class AdminComponent {
         this._adminservice.on('message', (message) => {
             console.log(message);
         });
+        this._adminservice.on('accessFailed', (message) => {
+            console.log('accessFailed with message:', message);
+        });
+        this._adminservice.on('userNotFound', (message) => {
+            console.log('userNotFound with message:', message);
+        });
+        this._adminservice.on('adminUserData', (message) => {
+            console.log('recieved adminUserData from server:', message);
+        });
     }
 
     /*
