@@ -68,7 +68,7 @@ export class AdminComponent {
             submission.username = this.usernameFormControl.value;
             submission.password = this.passwordFormControl.value;
 //            console.log(submission);
-            this._adminservice.emit('adminLoginRequested', {form: JSON.stringify(submission)});
+            this._adminservice.emit('adminLoginRequest', {form: JSON.stringify(submission)});
         }
     }
 }
