@@ -3,12 +3,12 @@
     <form #AdminSignInForm="ngForm" (ngSubmit)="onSubmit(AdminSignInForm)">
         <mat-form-field name="username">
             <input matInput placeholder="username" [formControl]="usernameFormControl" [errorStateMatcher]="usernameMatcher" name="username" ngModel>
-            <mat-hint>Enter your administrator username above.</mat-hint>
+            <mat-hint>Enter admin username above.</mat-hint>
             <mat-error *ngIf="usernameFormControl.hasError('uname') && !usernameFormControl.hasError('required')">
                 The provided username is not recognized.
             </mat-error>
             <mat-error *ngIf="usernameFormControl.hasError('required')">
-                An administrator username is <strong>required</strong> to login.
+                An admin username is <strong>required</strong>.
             </mat-error>
         </mat-form-field>
         <mat-form-field name="password">
