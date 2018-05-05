@@ -61,8 +61,7 @@ module.exports = function(io, socket) {
             console.log(`Email sent: ${info.response}.`);
           }
         });
-        console.log(`Reservation Successful`);
-        socket.emit('reservationSuccessful', {message: 'Reservation Successful'});
+        socket.emit('reservationSuccessful', {secret: newReservation.secret});
       }
     });
   });

@@ -19,6 +19,7 @@ const ReservationSchema = new Schema({
   },
   reservationDate: {
     type: Date,
+    unique: true,
     required: 'A date for the reservation is required!',
   },
   secret: {
