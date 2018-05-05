@@ -10,6 +10,8 @@ module.exports = function() {
   const db = mongoose.connect(config.db); //uses the db path from the config
   //Require the reservation model
   require('../app/models/reservation.server.model.js');
+  //Require the admin model
+  require('../app/models/admin.server.model.js');
   //Any necessary models should be called here.
   return db;
 }
