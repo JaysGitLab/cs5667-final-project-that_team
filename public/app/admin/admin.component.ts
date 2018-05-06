@@ -64,10 +64,16 @@ export class AdminComponent {
             console.log('userNotFound with message:', message);
         });
         this._adminservice.on('badPassword', (message) => {
-            console.log('badPassword with message: ', message)
+            console.log('badPassword with message: ', message);
+        });
+        this._adminservice.on('badUsernamePassword', (message) => {
+            console.log('badUsernamePassword with message: ', message);
         });
         this._adminservice.on('adminUserData', (message) => {
             console.log('recieved adminUserData from server:', message);
+        });
+        this._adminservice.on('authSuccess', (message) => {
+            console.log('authSuccess with message: ', message);
         });
     }
 
