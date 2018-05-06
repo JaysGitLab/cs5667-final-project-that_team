@@ -93,4 +93,40 @@ module.exports = function(io, socket) {
       }
     });
   });
+
+  //This function handles requests to resend a user's magic link
+  socket.on('resendLink', (message) => {
+    if (message.email) {
+      var today = new Date();
+      Reservation.find({'email':message.email, 'reservationDate': {$gt: today}}).exec((err, reservations) => {
+        var message = 'Here are your magic links:\n';
+        for (reservation of reservations) {
+          var reserved = new Date(reservation.reservationDate);
+          message += `Your reservation for ${reserved.toDateString()} can be edited or cancelled here: ${config.url}/manage/${reservation.secret}\n`
+        }
+        var transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: config.emailAddr,
+            //If you use your gmail, you will need to generate an app password
+            pass: config.emailPass
+          }
+        });
+        var mailOptions = {
+          from: '<from-email>',
+          to: reservation.email,
+          subject: `Magic Links for Park Reservations`,
+          text: message
+        };
+        transporter.sendMail(mailOptions, function(err, info) {
+          if (err) {
+            console.log(`Error in sending email with error ${err}.`);
+          }
+          else {
+            console.log(`Email sent: ${info.response}.`);
+          }
+        });
+      });
+    }
+  });
 }

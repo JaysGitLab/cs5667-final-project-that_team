@@ -45,7 +45,8 @@ export class ReservationComponent {
     });
     this._reservationservice.on('dateListResponse', (message) => {
       this.dateFilter = (d: Date): boolean => {
-        return !message.dateList.includes(d.toISOString());
+        var today = new Date();
+        return !message.dateList.includes(d.toISOString()) && d > today;
       }
     });
     this._reservationservice.on('reservationSuccessful', (message) => {
