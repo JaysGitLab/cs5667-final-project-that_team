@@ -30,7 +30,6 @@ require("./style.css");
     HttpModule,
     HomeModule,
     ReservationModule,
-    ManageModule,
     AdminModule,
     RouterModule.forRoot(AppRoutes)
   ],
