@@ -26,6 +26,7 @@ module.exports = function(io, socket) {
                 socket.emit('accessFailed', {message: 'Could not access admin user data.'});
             } else {
                 if (admin != null) {
+                    usernameExists = true;
                     // console.log('Server acknowledges username: ' + form.username + ' exists.');
 //                    passport.authenticate('local', form.password), function(req, res) {
 //                        console.log('authenticated: ' + form.username + 'with password: ' + form.password);
@@ -42,6 +43,23 @@ module.exports = function(io, socket) {
                 } else {
                     socket.emit('userNotFound', {message: 'The provided username: '
                         + form.username + ' is not in the database.'})
+                }
+            }
+        });
+        // TODO: Encrypt the username and password!!!!
+        Admin.findOne({'username': form.username, 'password': form.password}).select({
+            username: 1,
+            password: 1
+        }).exec((err, admin) => {
+            if (err) {
+                socket.emit('accessFailed', {message: 'Could not access admin user data.'});
+            } else {
+                if (admin != null) {
+                    console.log('authenticated: ' + form.username + 'with password: ' + form.password);
+                    // socket.emit('adminUserData', admin);
+                    socket.emit('authSuccess', {message: 'The provided username and password match the database, auth succeeded.'});
+                } else {
+                    socket.emit('badUsernamePassword', {message: 'Either password or username is incorrect.'});
                 }
             }
         });
