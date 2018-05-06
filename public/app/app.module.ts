@@ -31,6 +31,7 @@ require("./style.css");
     HomeModule,
     ReservationModule,
     AdminModule,
+    ManageModule,
     RouterModule.forRoot(AppRoutes)
   ],
   declarations: [

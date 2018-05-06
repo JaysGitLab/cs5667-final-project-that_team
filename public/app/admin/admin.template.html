@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!auth">
     <!-- see: https://material.angular.io/components/input/examples !-->
     <form #AdminSignInForm="ngForm" (ngSubmit)="onSubmit(AdminSignInForm)">
         <mat-form-field name="username">
@@ -23,4 +23,25 @@
         </mat-form-field>
         <button>Login</button>
     </form>
+</div>
+<div *ngIf="auth && (!showList)">
+  <p>Loading Reservation List</p>
+</div>
+<div *ngIf="auth && showList">
+  <tr>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Email</th>
+    <th>Date of Reservation</th>
+    <th>Reservation Created</th>
+    <th>Status</th>
+  </tr>
+  <tr *ngFor="let reservation of reservations">
+    <td>{{reservation.firstname}}</td>
+    <td>{{reservation.lastname}}</td>
+    <td>{{reservation.email}}</td>
+    <td>{{reservation.reservationDate.toDateString()}}</td>
+    <td>{{reservation.created.toDateString()}}</td>
+    <td>{{reservation.status}}</td>
+  </tr>
 </div>

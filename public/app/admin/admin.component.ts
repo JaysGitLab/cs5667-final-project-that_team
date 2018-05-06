@@ -32,6 +32,9 @@ export class PasswordMatcher implements ErrorStateMatcher {
     providers: [AdminService]
 })
 export class AdminComponent {
+  reservations:any;
+  showList:boolean = false;
+  auth: boolean = false;
     dateFilter: any;
     usernameFormControl = new FormControl('', [
         Validators.required
@@ -57,8 +60,10 @@ export class AdminComponent {
         this._adminservice.on('message', (message) => {
             console.log(message);
         });
+
+        /***************************AUTH***************************/
         this._adminservice.on('accessFailed', (message) => {
-            console.log('accessFailed with message:', message);
+            console.log('accessFailed with message:', message.message);
         });
         this._adminservice.on('userNotFound', (message) => {
             console.log('userNotFound with message:', message);
@@ -73,7 +78,18 @@ export class AdminComponent {
             console.log('recieved adminUserData from server:', message);
         });
         this._adminservice.on('authSuccess', (message) => {
-            console.log('authSuccess with message: ', message);
+          this._adminservice.emit('getReservationList', {});
+          this.auth = true;
+        });
+        /************************************************************/
+        /************************EVERYTHING ELSE********************/
+        this._adminservice.on('reservationList', (message) => {
+          this.reservations = JSON.parse(message);
+          for (var reservation of this.reservations) {
+            reservation.reservationDate = new Date(reservation.reservationDate);
+            reservation.created = new Date(reservation.created);
+          }
+          this.showList = true;
         });
     }
 

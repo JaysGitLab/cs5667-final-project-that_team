@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const config = require('../../config/config.js');
 const passport = require('passport');
 const Admin = mongoose.model('Admin');
+const Reservation = mongoose.model('Reservation');
 
 /*
 * This file handles all socket.io configuration for the Admin service.
@@ -16,7 +17,6 @@ module.exports = function(io, socket) {
         var usernameExists = false;
         // Parse the received form:
         var form = JSON.parse(message.form)
-        console.log('Server received admin login request:', form)
         // console.log('username: ', form.username);
         // Check the database to see if the username is present:
         Admin.findOne({"username": form.username}).select({
@@ -55,13 +55,32 @@ module.exports = function(io, socket) {
                 socket.emit('accessFailed', {message: 'Could not access admin user data.'});
             } else {
                 if (admin != null) {
-                    console.log('authenticated: ' + form.username + 'with password: ' + form.password);
-                    // socket.emit('adminUserData', admin);
                     socket.emit('authSuccess', {message: 'The provided username and password match the database, auth succeeded.'});
                 } else {
                     socket.emit('badUsernamePassword', {message: 'Either password or username is incorrect.'});
                 }
             }
         });
+    });
+
+    //This hander will respond with a list of all reservations.
+    socket.on('getReservationList', (message) => {
+      Reservation.find({}).select({
+        "_id": 0,
+        "firstname": 1,
+        "lastname": 1,
+        "email": 1,
+        "reservationDate": 1,
+        "secret": 1,
+        "created": 1,
+        "status": 1
+      }).exec((err, reservations) => {
+        if (err) {
+          socket.emit('accessFailed', {message: "Unable to retrieve reservation list."});
+        }
+        else {
+          socket.emit('reservationList', JSON.stringify(reservations));
+        }
+      });
     });
 }
