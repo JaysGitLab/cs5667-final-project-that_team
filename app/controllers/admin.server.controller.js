@@ -64,5 +64,4 @@ module.exports = function(io, socket) {
             }
         });
     });
-    // TODO: Check the database to see if the username password combo exists:
 }
