@@ -19,25 +19,29 @@ module.exports = function(io, socket) {
         console.log('Server received admin login request:', form)
         // console.log('username: ', form.username);
         // Check the database to see if the username is present:
-        Admin.findOne({'username': form.username}).select({
-            firstName: 1,
-            lastName: 1,
-            email: 1,
-            password: 1,
-            salt: 1,
-            provider: 1,
-            providerId: 1,
-            providerData: 1,
-            created: 1
+        Admin.findOne({"username": form.username}).select({
+            username: 1
         }).exec((err, admin) => {
             if (err) {
                 socket.emit('accessFailed', {message: 'Could not access admin user data.'});
             } else {
                 if (admin != null) {
-                    usernameExists = true;
-                    socket.emit('adminUserData', admin);
+                    // console.log('Server acknowledges username: ' + form.username + ' exists.');
+//                    passport.authenticate('local', form.password), function(req, res) {
+//                        console.log('authenticated: ' + form.username + 'with password: ' + form.password);
+//                        socket.emit('adminUserData', admin);
+//                    }
+//                    // Password login logic:
+//                    if (passport.authenticate('local', form.password) == true) {
+//                        console.log('authenticated: ' + form.username + 'with password: ' + form.password);
+//                        socket.emit('adminUserData', admin);
+//                    } else {
+//                        socket.emit('badPassword', {message: 'The password provided was incorrect'});
+//                    }
+
                 } else {
-                    socket.emit('userNotFound', {message: 'The provided username: ' + form.username + ' is not in the database.'})
+                    socket.emit('userNotFound', {message: 'The provided username: '
+                        + form.username + ' is not in the database.'})
                 }
             }
         });
