@@ -81,7 +81,7 @@ export class AdminComponent {
     * This method handles login form submissions.
     */
     onSubmit(form: NgForm) {
-        if (form.valid && this.usernameFormControl.valid) {
+        if (form.valid && this.usernameFormControl.valid && this.passwordFormControl.valid) {
             var submission = JSON.parse(JSON.stringify(form.value));
             submission.username = this.usernameFormControl.value;
             submission.password = this.passwordFormControl.value;
