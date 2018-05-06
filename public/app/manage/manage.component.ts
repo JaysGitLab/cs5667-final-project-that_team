@@ -2,6 +2,15 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ManageService } from './manage.service';
 import { NgForm, FormControl, Validators, FormGroupDirective } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+/* Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 /* This component handles user reservation requests via an angular form.
 *
@@ -13,6 +22,11 @@ import { NgForm, FormControl, Validators, FormGroupDirective } from '@angular/fo
   providers: [ManageService]
 })
 export class ManageComponent {
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email
+  ]);
+  matcher = new MyErrorStateMatcher();
   dateFilter: any;
   dateChoice: boolean = false;
   reservationid: any;
@@ -96,5 +110,14 @@ export class ManageComponent {
   */
   cancel() {
     this._manageService.emit('cancelReservation', {secret: this.reservationid});
+  }
+
+  /*This method handles the resending of a magic link if the user requests
+  * that a link be re-sent!
+  */
+  lostEmail() {
+    if (this.emailFormControl.valid) {
+      this._manageService.emit('resendLink', {email: this.emailFormControl.value});
+    }
   }
 }

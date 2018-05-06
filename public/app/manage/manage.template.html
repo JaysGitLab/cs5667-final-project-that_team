@@ -1,22 +1,39 @@
 <h1>Manage Your Reservation</h1>
-<p *ngIf="error != null">{{error}}</p>
-<p *ngIf="message != null">{{message}}</p>
-<div *ngIf="loaded">
-  <h2>Welcome {{firstname}} {{lastname}}!</h2>
-  <p>Email used for registration: {{email}}</p>
-  <p>Park reservation for {{reservationDate.toDateString()}}</p>
-  <button (click)="loadDateChanger()">Change Reservation</button>
-  <div *ngIf="dateChoice == true">
-    <form #DateChangeForm="ngForm" (ngSubmit)="dateChange(DateChangeForm)">
-      <mat-form-field>
-        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Choose a Date" name="date" ngModel>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <button>Change Date</button>
-    </form>
+<div *ngIf="!reservationid">
+  <p>Lost your reservation email and magic link?  No problem, enter your email and we'll send it again!</p>
+  <form #LostEmailForm="ngForm" (ngSubmit)="lostEmail()">
+    <mat-form-field name="email">
+      <input matInput placeholder="Email" [formControl]="emailFormControl" [errorStateMatcher]="matcher" name="email" ngModel>
+      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="emailFormControl.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <button>Send the Link!</button>
+  </form>
+</div>
+<div *ngIf="reservationid">
+  <p *ngIf="error != null">{{error}}</p>
+  <p *ngIf="message != null">{{message}}</p>
+  <div *ngIf="loaded">
+    <h2>Welcome {{firstname}} {{lastname}}!</h2>
+    <p>Email used for registration: {{email}}</p>
+    <p>Park reservation for {{reservationDate.toDateString()}}</p>
+    <button (click)="loadDateChanger()">Change Reservation</button>
+    <div *ngIf="dateChoice == true">
+      <form #DateChangeForm="ngForm" (ngSubmit)="dateChange(DateChangeForm)">
+        <mat-form-field>
+          <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Choose a Date" name="date" ngModel>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <button>Change Date</button>
+      </form>
+    </div>
+    <p>Park reservation request created on {{created.toDateString()}}</p>
+    <p>Reservation status: {{status}}</p>
+    <button (click)="cancel()">Cancel Reservation</button>
   </div>
-  <p>Park reservation request created on {{created.toDateString()}}</p>
-  <p>Reservation status: {{status}}</p>
-  <button (click)="cancel()">Cancel Reservation</button>
 </div>
