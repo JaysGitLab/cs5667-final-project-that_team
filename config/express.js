@@ -7,10 +7,12 @@ const compress = require('compression');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const configureSession = require('./session.js');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const path = require('path');
 const configureSocket = require('./socketio.js');
+
 const passport = require('passport');
 
 module.exports = function(db) {
@@ -46,8 +48,10 @@ module.exports = function(db) {
   app.use(flash());
 
   /* Use passport for admin login */
+  app.use(configureSession);
   app.use(passport.initialize());
   app.use(passport.session());
+  // app.use(session({secret: "This is a secret session key!"}));
 
   /* Set up important routes. */
   app.use('/', express.static(path.resolve('./public')));
