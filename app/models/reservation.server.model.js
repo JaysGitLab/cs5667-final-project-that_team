@@ -25,7 +25,8 @@ const ReservationSchema = new Schema({
   secret: {
     type: String,
     required: 'Secret key is required.',
-    trim: true
+    trim: true,
+    unique: true
   },
   created: {
     type: Date,
@@ -36,7 +37,8 @@ const ReservationSchema = new Schema({
     type: String,
     required: 'A reservation must have a state: open, invoiced, or paid!',
     trim: true,
-    default: 'open'
+    default: 'open',
+    enum: ['open', 'approved', 'invoiced', 'paid']
   }
 });
 

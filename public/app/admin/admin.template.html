@@ -1,0 +1,66 @@
+<div *ngIf="!auth">
+    <!-- see: https://material.angular.io/components/input/examples !-->
+    <form #AdminSignInForm="ngForm" (ngSubmit)="onSubmit(AdminSignInForm)">
+        <mat-form-field name="username">
+            <input matInput placeholder="username" [formControl]="usernameFormControl" [errorStateMatcher]="usernameMatcher" name="username" ngModel>
+            <mat-hint>Enter admin username above.</mat-hint>
+            <mat-error *ngIf="usernameFormControl.hasError('uname') && !usernameFormControl.hasError('required')">
+                The provided username is not recognized.
+            </mat-error>
+            <mat-error *ngIf="usernameFormControl.hasError('required')">
+                An admin username is <strong>required</strong>.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field name="password">
+            <input matInput placeholder="password" [formControl]="passwordFormControl" [errorStateMatcher]="passwordMatcher" name="password" ngModel>
+            <mat-hint>Enter admin password above.</mat-hint>
+             <mat-error *ngIf="passwordFormControl.hasError('password') && !passwordFormControl.hasError('required')">
+                The provided password is not recognized.
+            </mat-error>
+            <mat-error *ngIf="passwordFormControl.hasError('required')">
+                An admin password is <strong>required</strong>.
+            </mat-error>
+        </mat-form-field>
+        <button>Login</button>
+    </form>
+</div>
+<div *ngIf="auth && (!showList)">
+  <p>Loading Reservation List</p>
+</div>
+<div *ngIf="auth && showList">
+  <tr>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Email</th>
+    <th>Date of Reservation</th>
+    <th>Reservation Created</th>
+    <th>Status</th>
+    <th></th>
+  </tr>
+  <tr *ngFor="let reservation of reservations">
+    <td>{{reservation.firstname}}</td>
+    <td>{{reservation.lastname}}</td>
+    <td>{{reservation.email}}</td>
+    <td>{{reservation.reservationDate.toDateString()}}</td>
+    <td>{{reservation.created.toDateString()}}</td>
+    <td>{{reservation.status}}</td>
+    <td>
+      <button *ngIf="reservation.status=='open'"
+        (click)=approve(reservation)>Approve</button>
+      <div *ngIf="reservation.status=='approved'">
+        <form #InvoiceForm="ngForm" (ngSubmit)="invoice(InvoiceForm, reservation)">
+          <mat-radio-group name="invoiceValue" ngModel>
+            <mat-radio-button value="0">Free!</mat-radio-button>
+            <mat-radio-button value="15">$15</mat-radio-button>
+            <mat-radio-button value="custom">
+              <mat-form-field>
+                <input matInput placeholder="Custom Cost" [(ngModel)]="customInvoiceValue" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </mat-radio-button>
+          </mat-radio-group>
+          <button>Invoice</button>
+        </form>
+      </div>
+    </td>
+  </tr>
+</div>
