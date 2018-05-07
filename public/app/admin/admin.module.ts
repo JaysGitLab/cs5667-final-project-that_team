@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule, MatFormFieldModule, MatNativeDateModule } from '@angular/material';
+import { MatRadioModule } from '@angular/material/radio';
 
 /* Primary app component imports */
 import { AdminComponent } from './admin.component';
@@ -17,6 +18,7 @@ import { AdminService } from './admin.service';
         ReactiveFormsModule,
         MatInputModule,
         MatFormFieldModule,
+        MatRadioModule,
         RouterModule.forChild(AdminRoutes)
     ],
     declarations: [

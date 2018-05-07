@@ -69,13 +69,15 @@ export class ManageComponent {
       else {
         this.error = "It seems we couldn't find your reservation, was it deleted?";
       }
+      this.dateChoice = false;
     });
     this._manageService.on('accessFailed', (message) => {
       this.error = `Sorry, we ran into an error loading your reservation, try again later!  Error Message: ${message.message}`
     });
     this._manageService.on('dateListResponse', (message) => {
       this.dateFilter = (d: Date): boolean => {
-        return !message.dateList.includes(d.toISOString());
+        var today = new Date();
+        return !message.dateList.includes(d.toISOString()) && d > today;
       }
       this.dateChoice = true;
     });

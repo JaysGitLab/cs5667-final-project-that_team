@@ -35,6 +35,7 @@
     <th>Date of Reservation</th>
     <th>Reservation Created</th>
     <th>Status</th>
+    <th></th>
   </tr>
   <tr *ngFor="let reservation of reservations">
     <td>{{reservation.firstname}}</td>
@@ -43,5 +44,23 @@
     <td>{{reservation.reservationDate.toDateString()}}</td>
     <td>{{reservation.created.toDateString()}}</td>
     <td>{{reservation.status}}</td>
+    <td>
+      <button *ngIf="reservation.status=='open'"
+        (click)=approve(reservation)>Approve</button>
+      <div *ngIf="reservation.status=='approved'">
+        <form #InvoiceForm="ngForm" (ngSubmit)="invoice(InvoiceForm, reservation)">
+          <mat-radio-group name="invoiceValue" ngModel>
+            <mat-radio-button value="0">Free!</mat-radio-button>
+            <mat-radio-button value="15">$15</mat-radio-button>
+            <mat-radio-button value="custom">
+              <mat-form-field>
+                <input matInput placeholder="Custom Cost" [(ngModel)]="customInvoiceValue" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </mat-radio-button>
+          </mat-radio-group>
+          <button>Invoice</button>
+        </form>
+      </div>
+    </td>
   </tr>
 </div>

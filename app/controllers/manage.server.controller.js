@@ -32,22 +32,14 @@ module.exports = function(io, socket) {
 
   //This function changes a reservation date and returns the new data if successful.
   socket.on('dateChange', (message) => {
-    Reservation.findOne({"secret":message.secret}).exec((err, reservation) => {
+    Reservation.findOneAndUpdate({"secret":message.secret}, {"reservationDate":message.date}, {new: 1}, (err, r) => {
       if (err) {
         socket.emit('accessFailed', {message: 'Could not access reservation data.'});
       }
       else {
-        reservation.reservationDate = message.date
-        reservation.save((err) => {
-          if (err) {
-            socket.emit('accessFailed', {message: 'Could not complete reservation update.'});
-          }
-          else {
-            socket.emit('reservationData', reservation);
-          }
-        });
+        socket.emit('reservationData', r);
       }
-    })
+    });
   });
 
   //This function removes a reservation and returns a message if successful.

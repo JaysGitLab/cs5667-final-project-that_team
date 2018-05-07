@@ -1,9 +1,9 @@
+const nodemailer = require('nodemailer');
 const mongoose = require('mongoose');
 const config = require('../../config/config.js');
 const passport = require('passport');
 const Admin = mongoose.model('Admin');
 const Reservation = mongoose.model('Reservation');
-
 /*
 * This file handles all socket.io configuration for the Admin service.
 * This includes creating the listeners and sending the appropriate emit
@@ -83,4 +83,42 @@ module.exports = function(io, socket) {
         }
       });
     });
+
+    //This handler will change the reservation's status.
+    socket.on('updateStatus', (message) => {
+      Reservation.findOneAndUpdate({"secret":message.secret}, {"status":message.status}, {new: 1}, (err, r) => {
+        if (err) {
+          socket.emit('accessFailed', {message: 'Could not access reservation data.'});
+        }
+        else {
+          socket.emit('statusUpdated', {reservation: r.secret, status: r.status});
+        }
+      });
+    });
+
+    //This handler will handle the creation and sending of an invoice.
+    socket.on('invoiceUser', (message) => {
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: config.emailAddr,
+          //If you use your gmail, you will need to generate an app password
+          pass: config.emailPass
+        }
+      });
+      var mailOptions = {
+        from: '<from-email>',
+        to: message.reservation.email,
+        subject: `Invoice for Green Valley Park Reservation`,
+        text: `You owe us $${message.amount}, but we don't have invoices yet!`
+      };
+      transporter.sendMail(mailOptions, function(err, info) {
+        if (err) {
+          console.log(`Error in sending email with error ${err}.`);
+        }
+        else {
+          console.log(`Email sent: ${info.response}.`);
+        }
+      });
+    })
 }

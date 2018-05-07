@@ -32,6 +32,7 @@ export class PasswordMatcher implements ErrorStateMatcher {
     providers: [AdminService]
 })
 export class AdminComponent {
+  customInvoiceValue:string = '0';
   reservations:any;
   showList:boolean = false;
   auth: boolean = false;
@@ -91,6 +92,14 @@ export class AdminComponent {
           }
           this.showList = true;
         });
+
+        this._adminservice.on('statusUpdated', (message) => {
+          for (var reservation of this.reservations) {
+            if (reservation.secret == message.secret) {
+              reservation.status = message.status;
+            }
+          }
+        });
     }
 
     /*
@@ -104,5 +113,36 @@ export class AdminComponent {
 //            console.log(submission);
             this._adminservice.emit('adminLoginRequest', {form: JSON.stringify(submission)});
         }
+    }
+
+    /*This function will handle an approve action.
+    */
+    approve(reservation) {
+      console.log('approve ' + reservation.reservationDate.toDateString());
+      this._adminservice.emit('updateStatus', {
+        secret: reservation.secret,
+        status: 'approved'
+      });
+      this._adminservice.emit('getReservationList', {});
+    }
+
+    /*This function will handle all invoice sending.
+    */
+    invoice(form: NgForm, reservation) {
+      console.log('invoice ' + reservation.reservationDate.toDateString() + " for " + form.value.invoiceValue);
+      if (form.valid) {
+        if (form.value.invoiceValue != '0') {
+          var cost = (form.value.invoiceValue == 'custom') ? this.customInvoiceValue : form.value.invoiceValue;
+          this._adminservice.emit('invoiceUser', {
+            reservation: reservation,
+            amount: cost
+          });
+        }
+        this._adminservice.emit('updateStatus', {
+          secret: reservation.secret,
+          status: 'invoiced'
+        });
+        this._adminservice.emit('getReservationList', {});
+      }
     }
 }
